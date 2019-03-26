@@ -396,9 +396,9 @@ def git_date(obj):
     return to_timestamp(date_s)
 
 
-RE_REMOTE_URL = re.compile(r'(https?://.*/[^/]+(?:\.git)?)\s+\(fetch\)')
+RE_REMOTE_URL = re.compile(r'\s{1}(.*)\s+\(fetch\)')
 
-RE_REMOTE_NAME = re.compile(r'https?://.*/(.+?)(\.git)?$')
+RE_REMOTE_NAME = re.compile(r'\/(\w*)\.git')
 
 
 def git_remote():
@@ -422,7 +422,8 @@ def git_remote():
         remote_name = RE_REMOTE_NAME.search(remote_url).group(1)
         return remote_url, remote_name
 
-    raise RuntimeError('No remote')
+    print('git_remote error: No remote')
+    return 'unknown', 'unknown'
 
 
 def git_describe():
